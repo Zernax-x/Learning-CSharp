@@ -23,7 +23,8 @@
                 currentValue++;
             }
 
-            Console.WriteLine($"Всего чётных чисел: {evenNumbersCount}, нечётных: {oddNumbersCount}.");
+            Console.WriteLine($"Всего чётных чисел: {evenNumbersCount}");
+            Console.WriteLine($"Всего чётных чисел: {oddNumbersCount}");
         }
     }
 }
