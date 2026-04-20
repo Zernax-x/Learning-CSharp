@@ -6,81 +6,56 @@ namespace ConsoleApp7
     {
         static void Main(string[] args)
         {
-            int[] SalaryArray;
-            string InputString;
-            int InputInt;
-            int CountSalary;
-
-            int CountBonusSalary;
-            int MiddleSalary;
-
             Console.WriteLine("Эта программа менеджер зарплат");
-            Console.WriteLine("Введите сколько максимально будет зарплат: 1-10");
 
-            CountSalary = GetValidatedInt();
-            SalaryArray = new int[CountSalary];
+            Console.WriteLine("Сколько всего зарплат? 1-10");
+            int count = ClampToRange(GetValidatedInt(), 10, 1);
 
-            for (int i = 0; i < SalaryArray.Length; i++)
-            {
-                Console.WriteLine($"Введди зарплату №{i + 1}. Остановить написание зарплат: 'Next' ");
-                InputString = Console.ReadLine();
+            int[] SalaryArray = new int[count];
+            FillSaralies(SalaryArray);
 
-                if (InputString == "Next" || InputString == "next") break;
+            SalaryArray = SalaryArray.Where(x => x > 0).ToArray();
 
-                InputInt = int.TryParse(InputString, out InputInt) ? InputInt : 0;
+            int middle = (int)SalaryArray.Average();
 
-                SalaryArray[i] = InputInt;
-            }
+            Console.WriteLine("Введите бонус");
+            int bonus = GetValidatedInt();
 
-            SalaryArray = SalaryArray.Where(x => x != 0).ToArray();
+            SalaryArray = SalaryArray.Select(x => x < middle ? x + bonus : x).ToArray();
 
-            MiddleSalary = SalaryArray.Sum() / SalaryArray.Length;
+            PrintResult(SalaryArray);
 
-            Console.WriteLine($"Введди бонус к зарплате");
-
-            while (true)
-            {
-                CountBonusSalary = int.TryParse(Console.ReadLine(), out CountSalary) ? CountSalary : 0;
-
-                if (CountBonusSalary > 0) break;
-                else Console.WriteLine("Введено не число повтори заново!");
-            }
-
-            for (int i = 0; i < SalaryArray.Length; i++)
-            {
-                SalaryArray = SalaryArray.Select(x => x < MiddleSalary ? x + CountBonusSalary : x).ToArray();
-            }
-
-            Console.WriteLine();
             Console.ReadLine();
-
         }
         static public int GetValidatedInt()
         {
-            int userInput;
-
-            if (!int.TryParse(Console.ReadLine(), out userInput)) userInput = 0;
-
-            if (userInput == 0)
+            while (true)
             {
-                Console.WriteLine("Введено не число, повторите заново!");
-                GetValidatedInt();
+                if (int.TryParse(Console.ReadLine(), out int result) && result > 0)
+                    return result;
+                Console.WriteLine("Неверный ввод, нужно положительное число");
             }
-
-            int limitedValue = ClampToRange(userInput, 10, 1);
-            return limitedValue;
         }
         static public int ClampToRange(int value, int max, int min)
         {
             if (value > max) return value = max;
-            else if (value < min) return value = min;
-            else return value;
+            if (value < min) return value = min;
+            return value;
         }
-        static public void PrintResult(int[] valueArray)
+        static public void PrintResult(int[] array)
         {
-            for (int i = 0; i < valueArray.Length; i++)
+            Console.WriteLine("\nИтоговый список:");
+            foreach (var s in array) Console.WriteLine(s);
+        }
+        static void FillSaralies(int[] array)
+        {
+            for (int i = 0; i < array.Length; i++)
             {
-                Console.WriteLine($"Зарплата №{i + 1}: {valueArray[i]}");
+                Console.WriteLine($"Зарплата №{i + 1} (или 'next')");
+                string input = Console.ReadLine();
+                if (input?.ToLower() == "next") break;
+
+                if (int.TryParse(input, out int var)) array[i] = var;
             }
         }
     }
