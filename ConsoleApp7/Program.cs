@@ -17,26 +17,12 @@ namespace ConsoleApp7
             Console.WriteLine("Эта программа менеджер зарплат");
             Console.WriteLine("Введите сколько максимально будет зарплат: 1-10");
 
-            while(true)
-            {
-                if (!int.TryParse(Console.ReadLine(), out CountSalary)) CountSalary = 0;
+            CountSalary = GetValidatedInt();
+            SalaryArray = new int[CountSalary];
 
-                if (CountSalary == 0)
-                {
-                    Console.WriteLine("Введено не число, повторите заново!");
-                    continue;
-                }
-
-                if (CountSalary > 10) CountSalary = 10;
-                else if(CountSalary < 1) CountSalary = 1;
-
-                SalaryArray = new int[CountSalary];
-                break;
-                
-            }
             for (int i = 0; i < SalaryArray.Length; i++)
             {
-                Console.WriteLine($"Введди зарплату №{i+1}. Остановить написание зарплат: 'Next' ");
+                Console.WriteLine($"Введди зарплату №{i + 1}. Остановить написание зарплат: 'Next' ");
                 InputString = Console.ReadLine();
 
                 if (InputString == "Next" || InputString == "next") break;
@@ -66,11 +52,36 @@ namespace ConsoleApp7
             }
 
             Console.WriteLine();
-            for (int i = 0; i < SalaryArray.Length; i++)
-            {
-                Console.WriteLine($"Зарплата №{i + 1}: {SalaryArray[i]}");
-            }
             Console.ReadLine();
+
+        }
+        static public int GetValidatedInt()
+        {
+            int userInput;
+
+            if (!int.TryParse(Console.ReadLine(), out userInput)) userInput = 0;
+
+            if (userInput == 0)
+            {
+                Console.WriteLine("Введено не число, повторите заново!");
+                GetValidatedInt();
+            }
+
+            int limitedValue = ClampToRange(userInput, 10, 1);
+            return limitedValue;
+        }
+        static public int ClampToRange(int value, int max, int min)
+        {
+            if (value > max) return value = max;
+            else if (value < min) return value = min;
+            else return value;
+        }
+        static public void PrintResult(int[] valueArray)
+        {
+            for (int i = 0; i < valueArray.Length; i++)
+            {
+                Console.WriteLine($"Зарплата №{i + 1}: {valueArray[i]}");
+            }
         }
     }
 }
