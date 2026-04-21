@@ -6,4 +6,5 @@
   <Project Path="ConsoleApp5/ConsoleApp5.csproj" Id="919e0354-54fe-415b-8417-ea755787d80c" />
   <Project Path="ConsoleApp6/ConsoleApp6.csproj" Id="ba92153f-d253-4358-93c2-75e8785eef50" />
   <Project Path="ConsoleApp7/ConsoleApp7.csproj" Id="a3aa80d0-5b51-4257-b237-18c0a7c8c628" />
+  <Project Path="TermiNET/TermiNET.csproj" Id="7c3be5ec-9ce1-4d90-9bba-ad07eb9afa28" />
 </Solution>

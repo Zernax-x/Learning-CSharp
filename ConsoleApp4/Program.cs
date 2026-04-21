@@ -6,7 +6,7 @@
         {
             int inputData = int.Parse(Console.ReadLine());
 
-            int result = inputData > 0 ? inputData : 0;
+            int result =inputData > 0 ? inputData : 0;
             
             Console.WriteLine(result);
         }
